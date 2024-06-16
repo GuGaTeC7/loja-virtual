@@ -26,8 +26,12 @@ public class EstadoService {
         return estadoNovo;
     }
 
-    public Estado alterar(Estado estado) {
-        return estadoRepository.saveAndFlush(estado);
+    public Estado alterar(Estado obj) {
+        Estado estadoExistente = estadoRepository.findById(obj.getId()).orElseThrow(() -> new RuntimeException("Estado não encontrada"));
+        estadoExistente.setNome(obj.getNome());
+        estadoExistente.setSigla(obj.getSigla());
+        estadoExistente.setDataAtualizacao(new Date());
+        return estadoRepository.saveAndFlush(estadoExistente);
     }
 
     public void excluir(Long id) {
